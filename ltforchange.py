@@ -1,5 +1,3 @@
-### adding two additional column for avg value of lead time for every month
-### Final Filanl Final LT
 import requests
 import csv
 from datetime import datetime
@@ -7,8 +5,8 @@ from collections import defaultdict
 
 # Replace with your GitHub personal access token
 GITHUB_TOKEN = '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'
-REPO_OWNER = 'dyrector-io'  # e.g., 'amittelus'
-REPO_NAME = 'dyrectorio'    # e.g., 'k8s'
+REPO_OWNER = 'dyrector-io'  
+REPO_NAME = 'dyrectorio'    
 
 # Define the API URL for fetching pull requests
 pulls_url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/pulls?state=all"
