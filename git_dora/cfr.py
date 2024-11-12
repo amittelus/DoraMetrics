@@ -154,35 +154,43 @@ if __name__ == "__main__":
     create_unique_incident_month_cfr()
 
 #####################
-#CFR graph plotting
+# #CFR graph plotting
 import csv
 import matplotlib.pyplot as plt
-from datetime import datetime
 
-# Load data from unique_incident_month_cfr.csv
-months = []
-cfr_values = []
+# Read the unique incident month and CFR data from CSV file
+def read_cfr_data():
+    """Read the CFR data from the CSV file."""
+    months = []
+    cfr_values = []
 
-# Read the CFR data
-with open('unique_incident_month_cfr.csv', 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        # Convert incident_month to a datetime object for plotting on the x-axis
-        incident_month = datetime.strptime(row['incident_month'], "%Y-%m")
-        months.append(incident_month)
-        cfr_values.append(float(row['cfr in percentage(%)']))
+    # Read the unique incident month and CFR data file
+    with open('unique_incident_month_cfr.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            months.append(row['incident_month'])
+            cfr_values.append(float(row['cfr in percentage(%)']))
 
-# Plot the CFR data as a bar chart
-plt.figure(figsize=(10, 6))
-plt.bar(months, cfr_values, color='orange', width=20)  # Adjust width for spacing
+    return months, cfr_values
 
-# Add labels and title
-plt.xlabel("Month-Year")
-plt.ylabel("Change Failure Rate (%)")
-plt.title("Change Failure Rate (CFR) Over Time")
-plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
-plt.grid(axis='y', linestyle='--', linewidth=0.5)
+# Plot the Change Failure Rate (CFR) graph (Bar format)
+def plot_cfr_graph(months, cfr_values, filename="cfr_graph_bar.png"):
+    """Plot the CFR bar graph and save it as a PNG file."""
+    plt.figure(figsize=(10, 6))
+    plt.bar(months, cfr_values, color='purple')
+    plt.xlabel('Month')
+    plt.ylabel('CFR (%)')
+    plt.title('Change Failure Rate by Month')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
 
-# Display the plot
-plt.tight_layout()  # Adjust layout for better fit
-plt.show()
+    # Save the graph as a PNG file
+    plt.savefig(filename)
+    print(f"CFR bar graph saved as {filename}")
+
+if __name__ == "__main__":
+    # Read CFR data
+    months, cfr_values = read_cfr_data()
+
+    # Plot the CFR bar graph and save it as an image
+    plot_cfr_graph(months, cfr_values)

@@ -148,35 +148,42 @@ if __name__ == "__main__":
 
 ########################
 #Graph for mttr
-
 import csv
 import matplotlib.pyplot as plt
-from datetime import datetime
 
-# Load data from unique_avg_mttr.csv
-months = []
-avg_mttr_hours = []
+# Read MTTR data from CSV file
+def read_mttr_data():
+    """Read the unique MTTR data from the CSV file."""
+    months = []
+    avg_mttr_values = []
 
-# Read the MTTR data
-with open('unique_avg_mttr.csv', 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        # Convert issue_closed_month to a datetime object for better plotting
-        issue_closed_month = datetime.strptime(row['issue_closed_month'], "%Y-%m")
-        months.append(issue_closed_month)
-        avg_mttr_hours.append(float(row['avg_mttr_data']))
+    # Read the unique MTTR data file
+    with open('unique_avg_mttr.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            months.append(row['issue_closed_month'])
+            avg_mttr_values.append(float(row['avg_mttr_data']))
 
-# Plot the MTTR data
-plt.figure(figsize=(10, 6))
-plt.plot(months, avg_mttr_hours, marker='o', color='b', linestyle='-', linewidth=2, markersize=6)
+    return months, avg_mttr_values
 
-# Add labels and title
-plt.xlabel("Month-Year")
-plt.ylabel("Average MTTR (Hours)")
-plt.title("Average MTTR Over Time")
-plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+# Plot the MTTR graph
+def plot_mttr_graph(months, avg_mttr_values, filename="mttr_graph.png"):
+    """Plot the MTTR (Mean Time to Restore) graph and save it as a PNG file."""
+    plt.figure(figsize=(10, 6))
+    plt.bar(months, avg_mttr_values, color='skyblue')
+    plt.xlabel('Month')
+    plt.ylabel('Average MTTR (Hours)')
+    plt.title('Mean Time to Restore (MTTR) by Month')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
 
-# Display the plot
-plt.tight_layout()  # Adjust layout for better fit
-plt.show()
+    # Save the graph as a PNG file
+    plt.savefig(filename)
+    print(f"MTTR graph saved as {filename}")
+
+if __name__ == "__main__":
+    # Read MTTR data
+    months, avg_mttr_values = read_mttr_data()
+
+    # Plot the MTTR graph and save it as an image
+    plot_mttr_graph(months, avg_mttr_values)

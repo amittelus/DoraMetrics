@@ -163,35 +163,42 @@ if __name__ == "__main__":
 
 ########################
 #Graph for LT for change
-
 import csv
 import matplotlib.pyplot as plt
-from datetime import datetime
 
-# Load the data from leadtimechange.csv
-months = []
-avg_lead_time_hours = []
+# Read Lead Time for Change data from CSV file
+def read_lead_time_data():
+    """Read the lead time data from the CSV file."""
+    months = []
+    avg_lead_time_values = []
 
-# Read the lead time change data
-with open('leadtimechange.csv', 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        # Convert month_year to a datetime object for better plotting
-        month_year = datetime.strptime(row['month_year'], "%Y-%m")
-        months.append(month_year)
-        avg_lead_time_hours.append(float(row['avg_lead_time_change_in_hrs']))
+    # Read the lead time change data file
+    with open('leadtimechange.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            months.append(row['month_year'])
+            avg_lead_time_values.append(float(row['avg_lead_time_change_in_hrs']))
 
-# Plot the data
-plt.figure(figsize=(10, 6))
-plt.plot(months, avg_lead_time_hours, marker='o', color='r', linestyle='-', linewidth=2, markersize=6)
+    return months, avg_lead_time_values
 
-# Add labels and title
-plt.xlabel("Month-Year")
-plt.ylabel("Average Lead Time for Change (Hours)")
-plt.title("Average Lead Time for Change Over Time")
-plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+# Plot the Lead Time for Change graph
+def plot_lead_time_graph(months, avg_lead_time_values, filename="lead_time_graph.png"):
+    """Plot the Lead Time for Change graph and save it as a PNG file."""
+    plt.figure(figsize=(10, 6))
+    plt.bar(months, avg_lead_time_values, color='salmon')
+    plt.xlabel('Month')
+    plt.ylabel('Average Lead Time for Change (Hours)')
+    plt.title('Lead Time for Change by Month')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
 
-# Display the plot
-plt.tight_layout()  # Adjust layout for better fit
-plt.show()
+    # Save the graph as a PNG file
+    plt.savefig(filename)
+    print(f"Lead Time for Change graph saved as {filename}")
+
+if __name__ == "__main__":
+    # Read Lead Time data
+    months, avg_lead_time_values = read_lead_time_data()
+
+    # Plot the Lead Time graph and save it as an image
+    plot_lead_time_graph(months, avg_lead_time_values)

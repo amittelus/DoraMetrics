@@ -116,35 +116,43 @@ if __name__ == "__main__":
     create_depfreq_csv()
 
 ##########################
-##Graph for df
+# ##Graph for df
 import csv
 import matplotlib.pyplot as plt
-from datetime import datetime
 
-# Load the data from depfreq.csv
-months = []
-deployments = []
+# Read Deployment Frequency data from CSV file
+def read_deployment_data():
+    """Read the deployment frequency data from the CSV file."""
+    months = []
+    deployments = []
 
-# Read the deployment frequency data
-with open('depfreq.csv', 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        # Convert month_year to a datetime object for better plotting
-        month_year = datetime.strptime(row['month_year'], "%Y-%m")
-        months.append(month_year)
-        deployments.append(int(row['number_of_deployments']))
+    # Read the deployment frequency data file
+    with open('depfreq.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            months.append(row['month_year'])
+            deployments.append(int(row['number_of_deployments']))
 
-# Plot the data
-plt.figure(figsize=(10, 6))
-plt.plot(months, deployments, marker='o', color='b', linestyle='-', linewidth=2, markersize=6)
+    return months, deployments
 
-# Add labels and title
-plt.xlabel("Month-Year")
-plt.ylabel("Number of Deployments")
-plt.title("Deployment Frequency Over Time")
-plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+# Plot the Deployment Frequency graph (Bar format)
+def plot_deployment_frequency_graph(months, deployments, filename="deployment_frequency_graph.png"):
+    """Plot the Deployment Frequency bar graph and save it as a PNG file."""
+    plt.figure(figsize=(10, 6))
+    plt.bar(months, deployments, color='teal')
+    plt.xlabel('Month')
+    plt.ylabel('Number of Deployments')
+    plt.title('Deployment Frequency by Month')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
 
-# Display the plot
-plt.tight_layout()  # Adjust layout for better fit
-plt.show()
+    # Save the graph as a PNG file
+    plt.savefig(filename)
+    print(f"Deployment Frequency bar graph saved as {filename}")
+
+if __name__ == "__main__":
+    # Read Deployment Frequency data
+    months, deployments = read_deployment_data()
+
+    # Plot the Deployment Frequency bar graph and save it as an image
+    plot_deployment_frequency_graph(months, deployments)
