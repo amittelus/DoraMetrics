@@ -160,3 +160,38 @@ def create_leadtimechange_csv():
 
 if __name__ == "__main__":
     create_leadtimechange_csv()
+
+########################
+#Graph for LT for change
+
+import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+# Load the data from leadtimechange.csv
+months = []
+avg_lead_time_hours = []
+
+# Read the lead time change data
+with open('leadtimechange.csv', 'r') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        # Convert month_year to a datetime object for better plotting
+        month_year = datetime.strptime(row['month_year'], "%Y-%m")
+        months.append(month_year)
+        avg_lead_time_hours.append(float(row['avg_lead_time_change_in_hrs']))
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(months, avg_lead_time_hours, marker='o', color='r', linestyle='-', linewidth=2, markersize=6)
+
+# Add labels and title
+plt.xlabel("Month-Year")
+plt.ylabel("Average Lead Time for Change (Hours)")
+plt.title("Average Lead Time for Change Over Time")
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+# Display the plot
+plt.tight_layout()  # Adjust layout for better fit
+plt.show()

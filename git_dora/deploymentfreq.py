@@ -114,3 +114,37 @@ def create_depfreq_csv():
 
 if __name__ == "__main__":
     create_depfreq_csv()
+
+##########################
+##Graph for df
+import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+# Load the data from depfreq.csv
+months = []
+deployments = []
+
+# Read the deployment frequency data
+with open('depfreq.csv', 'r') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        # Convert month_year to a datetime object for better plotting
+        month_year = datetime.strptime(row['month_year'], "%Y-%m")
+        months.append(month_year)
+        deployments.append(int(row['number_of_deployments']))
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(months, deployments, marker='o', color='b', linestyle='-', linewidth=2, markersize=6)
+
+# Add labels and title
+plt.xlabel("Month-Year")
+plt.ylabel("Number of Deployments")
+plt.title("Deployment Frequency Over Time")
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+# Display the plot
+plt.tight_layout()  # Adjust layout for better fit
+plt.show()

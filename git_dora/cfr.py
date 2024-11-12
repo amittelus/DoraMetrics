@@ -152,3 +152,37 @@ def create_unique_incident_month_cfr():
 
 if __name__ == "__main__":
     create_unique_incident_month_cfr()
+
+#####################
+#CFR graph plotting
+import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+# Load data from unique_incident_month_cfr.csv
+months = []
+cfr_values = []
+
+# Read the CFR data
+with open('unique_incident_month_cfr.csv', 'r') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        # Convert incident_month to a datetime object for plotting on the x-axis
+        incident_month = datetime.strptime(row['incident_month'], "%Y-%m")
+        months.append(incident_month)
+        cfr_values.append(float(row['cfr in percentage(%)']))
+
+# Plot the CFR data as a bar chart
+plt.figure(figsize=(10, 6))
+plt.bar(months, cfr_values, color='orange', width=20)  # Adjust width for spacing
+
+# Add labels and title
+plt.xlabel("Month-Year")
+plt.ylabel("Change Failure Rate (%)")
+plt.title("Change Failure Rate (CFR) Over Time")
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.grid(axis='y', linestyle='--', linewidth=0.5)
+
+# Display the plot
+plt.tight_layout()  # Adjust layout for better fit
+plt.show()
