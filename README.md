@@ -1,4 +1,4 @@
-# DoraMetrics
+# DORA rules for GITHUB 
 
 Deployment Frequency → This is the total number of releases in any specific period of time. 
 
