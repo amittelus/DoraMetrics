@@ -2,9 +2,10 @@ import requests
 import csv
 from datetime import datetime
 from collections import defaultdict
+from config import GITHUB_TOKEN
 
 # Replace with your GitHub personal access token
-GITHUB_TOKEN = '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'
+#GITHUB_TOKEN = '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'
 REPO_OWNER = 'dyrector-io'  
 REPO_NAME = 'dyrectorio'    
 

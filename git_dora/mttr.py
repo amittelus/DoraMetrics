@@ -2,9 +2,10 @@ import requests
 import csv
 from datetime import datetime
 from collections import defaultdict
+from config import GITHUB_TOKEN
 
 # Replace with your GitHub personal access token
-GITHUB_TOKEN = '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'
+#GITHUB_TOKEN = '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'
 REPO_OWNER = 'amittelus'  # e.g., 'amittelus'
 REPO_NAME = 'k8s'    # e.g., 'k8s'
 
